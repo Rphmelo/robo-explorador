@@ -93,12 +93,9 @@ Robo::Robo(char _comando, int _velocidade, int _rodaDD, int _rodaDE, int _rodaTD
 
 Robo *curtoCircuito = new Robo('a', 255, 1, 2, 3, 4);
 
-void enviarDadosApp(){
-  Serial1.println(Serial1.read());
-}
-char obterDadosBluetooth(){
-  return Serial1.read();
-}
+long previousMillis = 0;
+ 
+long interval = 1000;
 
 void setup() 
 { 
@@ -111,29 +108,49 @@ void setup()
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if (Serial.available()){
-      curtoCircuito->setComando(Serial1.read());
-      Serial.println("Teste");
-      Serial.write("Teste");
-      Serial1.write("Teste");
-      
-      switch(curtoCircuito->getComando()){
-       
-       case 'A':
-          curtoCircuito->virarAEsquerda();
-          break;
-       case 'B':
-          curtoCircuito->virarADireita();
-          break;
-       case 'C':
-          curtoCircuito->moverParaFrente();
-          break;
-       case 'D':
-          curtoCircuito->moverParaTras();
-          break;
-       case 'E':
-          curtoCircuito->pararRobo();
-          break;
-    }
+
+  unsigned long currentMillis = millis();
+  
+  char data;
+  if(Serial1.available()){
+    data = Serial1.read();
+    curtoCircuito->setComando(data);
   }
+  
+    switch(curtoCircuito->getComando()){
+     
+     case 'A':
+        if(currentMillis - previousMillis > interval) {
+          curtoCircuito->virarAEsquerda();
+          previousMillis = currentMillis;   
+        }
+        break;
+     case 'B':
+        if(currentMillis - previousMillis > interval) {
+          curtoCircuito->virarADireita();
+          previousMillis = currentMillis;   
+        }
+        
+        break;
+     case 'C':
+        if(currentMillis - previousMillis > interval) {
+          curtoCircuito->moverParaFrente();
+          previousMillis = currentMillis;   
+        }
+        
+        break;
+     case 'D':
+        if(currentMillis - previousMillis > interval) {
+          curtoCircuito->moverParaTras();
+          previousMillis = currentMillis;   
+        }
+        
+        break;
+     case 'E':
+        if(currentMillis - previousMillis > interval) {
+          curtoCircuito->pararRobo();
+          previousMillis = currentMillis;   
+        }
+        break;
+    }
 }

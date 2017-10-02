@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <Button
+        android:id="@+id/btnForward"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:text="@string/txtBtnForward"
+        android:layout_above="@+id/btnRight"
+        android:layout_toEndOf="@+id/btnStopRobot"
+        android:layout_marginBottom="59dp" />
+
+    <Button
+        android:id="@+id/btnLeft"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:text="@string/txtBtnLeft"
+        android:layout_alignBottom="@+id/btnBackward"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="121dp" />
+
+    <Button
+        android:id="@+id/btnRight"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:text="@string/txtBtnRight"
+        android:layout_alignBaseline="@+id/btnLeft"
+        android:layout_alignBottom="@+id/btnLeft"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/btnBackward"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:text="@string/txtBtnBackward"
+        android:layout_marginBottom="43dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/btnStopRobot"
+        android:layout_marginStart="7dp" />
+
+    <Button
+        android:id="@+id/btnStopRobot"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:text="@string/txtBtnStopRobot"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+</RelativeLayout>

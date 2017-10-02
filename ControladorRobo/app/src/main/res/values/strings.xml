@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ControladorRobo</string>
+    <string name="txtBtnForward">Frente</string>
+    <string name="txtBtnRight">Direita</string>
+    <string name="txtBtnLeft">Esquerda</string>
+    <string name="txtBtnBackward">Trás</string>
+    <string name="txtBtnStopRobot">Parar Robô</string>
+    <string name="action_settings">Settings</string>
+    <string name="none_paired">Nenhum aparelho pareado!</string>
+    <string name="txtTitlePairedDevices">Dispositivos pareados</string>
+</resources>

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -82,31 +83,64 @@ public class MainActivity extends AppCompatActivity {
         checkBTState();
 
         // Set up onClick listeners for buttons to send 1 or 0 to turn on/off LED
-        btnLeft.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mConnectedThread.write("A");    // Send "0" via Bluetooth
-                Toast.makeText(getBaseContext(), "Virando a esquerda!", Toast.LENGTH_SHORT).show();
+        btnLeft.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+                    mConnectedThread.write("A");    // Send "1" via Bluetooth
+                    Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
+                    // Do what you want
+                    return true;
+                }
+                mConnectedThread.write("E");
+                Toast.makeText(getBaseContext(),  event.getAction(), Toast.LENGTH_SHORT).show();
+
+                return false;
             }
         });
 
-        btnRight.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mConnectedThread.write("B");    // Send "1" via Bluetooth
-                Toast.makeText(getBaseContext(), "Virando a direita", Toast.LENGTH_SHORT).show();
+        btnRight.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                while(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+                    mConnectedThread.write("A");    // Send "1" via Bluetooth
+                    Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
+                    // Do what you want
+                    return true;
+                }
+                mConnectedThread.write("E");
+                Toast.makeText(getBaseContext(), "Nenhuma ação definida", Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
 
-        btnForward.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mConnectedThread.write("C");    // Send "0" via Bluetooth
-                Toast.makeText(getBaseContext(), "Andando para frente", Toast.LENGTH_SHORT).show();
+        btnForward.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                while(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+                    mConnectedThread.write("A");    // Send "1" via Bluetooth
+                    Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
+                    // Do what you want
+                    return true;
+                }
+                mConnectedThread.write("E");
+                Toast.makeText(getBaseContext(), "Nenhuma ação definida", Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
 
-        btnBackward.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mConnectedThread.write("D");    // Send "1" via Bluetooth
-                Toast.makeText(getBaseContext(), "Andando para trás", Toast.LENGTH_SHORT).show();
+        btnBackward.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                while(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+                    mConnectedThread.write("A");    // Send "1" via Bluetooth
+                    Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
+                    // Do what you want
+                    return true;
+                }
+                mConnectedThread.write("E");
+                Toast.makeText(getBaseContext(), "Nenhuma ação definida", Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
 

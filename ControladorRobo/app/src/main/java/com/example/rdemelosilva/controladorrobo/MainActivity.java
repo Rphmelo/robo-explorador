@@ -25,12 +25,14 @@ import com.example.rdemelosilva.controladorrobo.DeviceListActivity;
 public class MainActivity extends AppCompatActivity {
 
     Handler bluetoothIn;
+    TextView vlTemperatura, vlLdr, vlHumidade;
     Button btnLeft, btnRight, btnForward, btnBackward, btnStopRobot;
 
     final int handlerState = 0;                        //used to identify handler message
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
     private StringBuilder recDataString = new StringBuilder();
+    private boolean fgSocketConnected = false;
 
     private ConnectedThread mConnectedThread;
 
@@ -52,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         btnForward = (Button) findViewById(R.id.btnForward);
         btnBackward = (Button) findViewById(R.id.btnBackward);
         btnStopRobot = (Button) findViewById(R.id.btnStopRobot);
+
+        vlLdr = (TextView) findViewById(R.id.vlLdr);
+        vlHumidade = (TextView) findViewById(R.id.vlHumidade);
+        vlTemperatura = (TextView) findViewById(R.id.vlTemperatura);
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -83,64 +89,31 @@ public class MainActivity extends AppCompatActivity {
         checkBTState();
 
         // Set up onClick listeners for buttons to send 1 or 0 to turn on/off LED
-        btnLeft.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
-                    mConnectedThread.write("A");    // Send "1" via Bluetooth
-                    Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
-                    // Do what you want
-                    return true;
-                }
-                mConnectedThread.write("E");
-                Toast.makeText(getBaseContext(),  event.getAction(), Toast.LENGTH_SHORT).show();
-
-                return false;
+        btnLeft.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mConnectedThread.write("A");    // Send "0" via Bluetooth
+                Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnRight.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                while(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
-                    mConnectedThread.write("A");    // Send "1" via Bluetooth
-                    Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
-                    // Do what you want
-                    return true;
-                }
-                mConnectedThread.write("E");
-                Toast.makeText(getBaseContext(), "Nenhuma ação definida", Toast.LENGTH_SHORT).show();
-                return false;
+        btnRight.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mConnectedThread.write("B");    // Send "0" via Bluetooth
+                Toast.makeText(getBaseContext(), "Virando a direita", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnForward.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                while(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
-                    mConnectedThread.write("A");    // Send "1" via Bluetooth
-                    Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
-                    // Do what you want
-                    return true;
-                }
-                mConnectedThread.write("E");
-                Toast.makeText(getBaseContext(), "Nenhuma ação definida", Toast.LENGTH_SHORT).show();
-                return false;
+        btnForward.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mConnectedThread.write("C");    // Send "0" via Bluetooth
+                Toast.makeText(getBaseContext(), "Andando para frente", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnBackward.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                while(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
-                    mConnectedThread.write("A");    // Send "1" via Bluetooth
-                    Toast.makeText(getBaseContext(), "Virando a esquerda", Toast.LENGTH_SHORT).show();
-                    // Do what you want
-                    return true;
-                }
-                mConnectedThread.write("E");
-                Toast.makeText(getBaseContext(), "Nenhuma ação definida", Toast.LENGTH_SHORT).show();
-                return false;
+        btnBackward.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mConnectedThread.write("D");    // Send "0" via Bluetooth
+                Toast.makeText(getBaseContext(), "Andando para trás", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -158,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
 
         //Get MAC address from DeviceListActivity via intent
         Intent intent = getIntent();
@@ -179,12 +152,15 @@ public class MainActivity extends AppCompatActivity {
         try
         {
             btSocket.connect();
+            fgSocketConnected = true;
         } catch (IOException e) {
             try
             {
                 btSocket.close();
+                fgSocketConnected = false;
             } catch (IOException e2)
             {
+                fgSocketConnected = false;
                 //insert code to deal with this
             }
         }
@@ -197,16 +173,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause()
+    public void onStop()
     {
-        super.onPause();
-//        try
-//        {
-//            //Don't leave Bluetooth sockets open when leaving activity
-//            btSocket.close();
-//        } catch (IOException e2) {
-//            //insert code to deal with this
-//        }
+        super.onStop();
+        try
+        {
+            //Don't leave Bluetooth sockets open when leaving activity
+            btSocket.close();
+            fgSocketConnected = false;
+        } catch (IOException e2) {
+            //insert code to deal with this
+            fgSocketConnected = false;
+        }
     }
 
     //Checks that the Android device Bluetooth is available and prompts to be turned on if off
@@ -250,10 +228,13 @@ public class MainActivity extends AppCompatActivity {
             // Keep looping to listen for received messages
             while (true) {
                 try {
-                    bytes = mmInStream.read(buffer);            //read bytes from input buffer
+                    bytes = mmInStream.read(buffer); //read bytes from input buffer
                     String readMessage = new String(buffer, 0, bytes);
                     // Send the obtained bytes to the UI Activity via handler
-                    bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
+                    //bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
+                    vlLdr.setText(readMessage.charAt(0));
+                    vlHumidade.setText(readMessage.charAt(1));
+                    vlTemperatura.setText(readMessage.charAt(2));
                 } catch (IOException e) {
                     break;
                 }
@@ -266,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                 mmOutStream.write(msgBuffer);                //write bytes over BT connection via outstream
             } catch (IOException e) {
                 //if you cannot write, close the application
-                Toast.makeText(getBaseContext(), "Não foi possível conectar. Tente novamente.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Não foi possível enviar dados para o bluetooth. Tente novamente.", Toast.LENGTH_LONG).show();
                 finish();
 
             }

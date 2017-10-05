@@ -8,10 +8,10 @@
     <ListView
         android:id="@+id/paired_devices"
         android:layout_width="367dp"
-        android:layout_height="312dp"
+        android:layout_height="230dp"
         android:layout_below="@+id/title_paired_devices"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="12dp"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/title_paired_devices"
@@ -26,4 +26,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="73dp" />
+
+    <Button
+        android:id="@+id/btnToControlador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/connecting"
+        android:layout_alignEnd="@+id/connecting"
+        android:layout_marginBottom="14dp"
+        android:onClick="toControlador"
+        android:text="@string/txtBtnToControlador"
+        android:visibility="invisible" />
 </RelativeLayout>

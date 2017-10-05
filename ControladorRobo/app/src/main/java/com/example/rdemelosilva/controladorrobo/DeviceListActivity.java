@@ -27,8 +27,9 @@ public class DeviceListActivity extends AppCompatActivity {
 
 
     // declare button for launching website and textview for connection status
-    Button tlbutton;
+    Button tlbutton, btnToControlador;
     TextView textView1;
+    String address;
 
     // EXTRA string to send on to mainactivity
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
@@ -41,6 +42,8 @@ public class DeviceListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
+
+        btnToControlador = (Button) findViewById(R.id.btnToControlador);
     }
 
     @Override
@@ -87,8 +90,9 @@ public class DeviceListActivity extends AppCompatActivity {
             textView1.setText("Conectando...");
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
+            address = info.substring(info.length() - 17);
 
+            findViewById(R.id.btnToControlador).setVisibility(View.VISIBLE);
             // Make an intent to start next activity while taking an extra which is the MAC address.
             Intent i = new Intent(DeviceListActivity.this, MainActivity.class);
             i.putExtra(EXTRA_DEVICE_ADDRESS, address);
@@ -111,5 +115,11 @@ public class DeviceListActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void toControlador(View v){
+        Intent i = new Intent(DeviceListActivity.this, MainActivity.class);
+        i.putExtra(EXTRA_DEVICE_ADDRESS, address);
+        startActivity(i);
     }
 }

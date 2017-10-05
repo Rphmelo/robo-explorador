@@ -25,7 +25,7 @@ import com.example.rdemelosilva.controladorrobo.DeviceListActivity;
 public class MainActivity extends AppCompatActivity {
 
     Handler bluetoothIn;
-    TextView vlTemperatura, vlLdr, vlHumidade;
+    TextView vlTemperatura, vlLdr, vlUmidade;
     Button btnLeft, btnRight, btnForward, btnBackward, btnStopRobot;
 
     final int handlerState = 0;                        //used to identify handler message
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         btnStopRobot = (Button) findViewById(R.id.btnStopRobot);
 
         vlLdr = (TextView) findViewById(R.id.vlLdr);
-        vlHumidade = (TextView) findViewById(R.id.vlHumidade);
+        vlUmidade = (TextView) findViewById(R.id.vlUmidade);
         vlTemperatura = (TextView) findViewById(R.id.vlTemperatura);
 
         bluetoothIn = new Handler() {
@@ -201,6 +201,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void receberValorSensores(String readMessage){
+        String ldr = "", umidade = "", temperatura = "";
+        temperatura = readMessage.substring(readMessage.indexOf('T') + 1, readMessage.indexOf('U'));
+        umidade = readMessage.substring(readMessage.indexOf('U') + 1, readMessage.indexOf('L'));
+        ldr = readMessage.substring(readMessage.indexOf('L') + 1);
+
+        vlLdr.setText(ldr);
+        vlUmidade.setText(umidade);
+        vlTemperatura.setText(temperatura);
+    }
+
     //create new class for connect thread
     private class ConnectedThread extends Thread {
         private final InputStream mmInStream;
@@ -232,9 +243,7 @@ public class MainActivity extends AppCompatActivity {
                     String readMessage = new String(buffer, 0, bytes);
                     // Send the obtained bytes to the UI Activity via handler
                     //bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
-                    vlLdr.setText(readMessage.charAt(0));
-                    vlHumidade.setText(readMessage.charAt(1));
-                    vlTemperatura.setText(readMessage.charAt(2));
+                    receberValorSensores(readMessage);
                 } catch (IOException e) {
                     break;
                 }

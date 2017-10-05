@@ -66,23 +66,23 @@
         tools:text="@string/txtLdr" />
 
     <TextView
-        android:id="@+id/txtHumidade"
+        android:id="@+id/txtUmidade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/btnBackward"
+        android:layout_alignTop="@+id/txtLdr"
         android:layout_marginEnd="26dp"
         android:text="TextView"
-        tools:text="@string/txtHumidade"
-        android:layout_alignTop="@+id/txtLdr" />
+        tools:text="@string/txtHumidade" />
 
     <TextView
         android:id="@+id/txtTemperatura"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txtTemperatura"
-        android:layout_alignBottom="@+id/txtHumidade"
+        android:layout_alignBottom="@+id/txtUmidade"
         android:layout_toStartOf="@+id/btnBackward"
-        android:layout_alignTop="@+id/txtHumidade" />
+        android:layout_alignTop="@+id/txtUmidade" />
 
     <TextView
         android:id="@+id/vlLdr"
@@ -95,11 +95,11 @@
         tools:text="@string/txtVlLdr" />
 
     <TextView
-        android:id="@+id/vlHumidade"
+        android:id="@+id/vlUmidade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/vlLdr"
-        android:layout_alignStart="@+id/txtHumidade"
+        android:layout_alignStart="@+id/txtUmidade"
         android:text="TextView"
         tools:text="@string/txtVlHumidade" />
 
@@ -107,8 +107,8 @@
         android:id="@+id/vlTemperatura"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/vlHumidade"
-        android:layout_alignBottom="@+id/vlHumidade"
+        android:layout_alignBaseline="@+id/vlUmidade"
+        android:layout_alignBottom="@+id/vlUmidade"
         android:layout_alignStart="@+id/txtTemperatura"
         android:text="TextView"
         tools:text="@string/txtVlTemperatura" />

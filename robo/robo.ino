@@ -7,7 +7,7 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 
-float humidade;
+float umidade;
 float temperatura;
 int ldrValue;
 
@@ -123,19 +123,19 @@ void lerDht(){
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  humidade = dht.readHumidity();
+  umidade = dht.readHumidity();
   // Read temperature as Celsius (the default)
   temperatura = dht.readTemperature();
   // Read temperature as Fahrenheit (isFahrenheit = true)
 
   // Check if any reads failed and exit early (to try again).
-  if (isnan(humidade) || isnan(temperatura)) {
+  if (isnan(umidade) || isnan(temperatura)) {
     Serial.println("Failed to read from DHT sensor!");
     return;
   }
 
-  Serial.print("Humidade: ");
-  Serial.print(humidade);
+  Serial.print("Umidade: ");
+  Serial.print(umidade);
   Serial.print(" %\t");
   Serial.print("Temperatura: ");
   Serial.print(temperatura);
@@ -156,27 +156,21 @@ void readLdr(){
   delay(1);        // delay in between reads for stability  
 }
 
-String obterDadosBluetooth(){
-  String dado = "";
-  while(Serial1.available()){
-    dado.concat((char) Serial1.read());
-  }
-  return dado;
-}
-
 void enviarDadosDhtLdr(){
   String dado = "";
   dado.concat("T");
-   dado.concat(temperatura);
-    dado.concat("H") ;
-     dado.concat(humidade);
-      dado.concat("L");
-      dado.concat(ldrValue);
-  Serial.println(dado);
+  dado.concat(temperatura);
+  dado.concat("U") ;
+  dado.concat(umidade);
+  dado.concat("L");
+  dado.concat(ldrValue);
+  for(int indice = 0; dado.length() < indice; indice++){
+    Serial1.write(dado.charAt(indice));
+  }
 }
 
 void loop() {
-  //Lendo humidade, temperatura e luminosidade
+  //Lendo umidade, temperatura e luminosidade
   lerDht();
   
   //Acionando led

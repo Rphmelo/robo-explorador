@@ -10,9 +10,9 @@
     <string name="txtTitlePairedDevices">Dispositivos pareados</string>
     <string name="txtBtnToControlador">Ir para Controlador</string>
     <string name="txtLdr">LDR</string>
-    <string name="txtHumidade">Humidade</string>
+    <string name="txtUmidade">Umidade</string>
     <string name="txtTemperatura">Temperatura</string>
     <string name="txtVlLdr" />
     <string name="txtVlTemperatura" />
-    <string name="txtVlHumidade" />
+    <string name="txtVlUmidade" />
 </resources>

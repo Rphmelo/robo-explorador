@@ -15,4 +15,6 @@
     <string name="txtVlLdr" />
     <string name="txtVlTemperatura" />
     <string name="txtVlUmidade" />
+    <string name="txtVelocidade">Velocidade</string>
+    <string name="txtVlVelocidade"></string>
 </resources>

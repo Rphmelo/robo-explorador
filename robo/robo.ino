@@ -66,6 +66,7 @@ class Robo {
       rodaDE->run(RELEASE);
       rodaTD->run(RELEASE);
       rodaTE->run(RELEASE);
+      definirVelocidade();
       Serial.write("Parando robo");
     }
     void moverParaFrente(){
@@ -147,7 +148,7 @@ void acionarLed(){
   digitalWrite(LED, LOW);    
   delay(1000);   
 }
-void readLdr(){
+void lerLdr(){
   // read the input on analog pin 0:
   ldrValue = analogRead(A10);
   // print out the value you read:
@@ -160,7 +161,7 @@ void enviarDadosDhtLdr(){
   String dado = "";
   dado.concat("T");
   dado.concat(temperatura);
-  dado.concat("U") ;
+  dado.concat("U");
   dado.concat(umidade);
   dado.concat("L");
   dado.concat(ldrValue);
@@ -169,20 +170,31 @@ void enviarDadosDhtLdr(){
   }
 }
 
-void loop() {
-  //Lendo umidade, temperatura e luminosidade
-  lerDht();
-  
-  //Acionando led
-  acionarLed();
+String receberDadosBluetooth(){
+  char caractere = ' ';
+  String retornoCompleto = "";
+  while(Serial1.available()){
+    caractere = (char) Serial1.read();
+    retornoCompleto.concat(caractere);
+  }
+  return retornoCompleto;
+}
 
-  //Lendo Ldr
-  readLdr();
-  
+int extrairVelocidade(String comando){
+  int velocidade = (comando.substring(1)).toInt();
+  return velocidade;
+}
+
+void iniciarControleRobo(){
   unsigned long currentMillis = millis();
-  enviarDadosDhtLdr();
+  
   if(Serial1.available()){
-    curtoCircuito->setComando(Serial1.read());
+    String comando = receberDadosBluetooth();
+    int velocidade = extrairVelocidade(comando);
+    
+    curtoCircuito->setComando(comando.charAt(0));
+    curtoCircuito->setVelocidade(velocidade);
+    
     switch(curtoCircuito->getComando()){
        case 'A':
           if(currentMillis - previousMillis > interval) {
@@ -216,5 +228,20 @@ void loop() {
           break;
       }
   }
+}
+void loop() {
+  //Lendo umidade, temperatura e luminosidade
+  lerDht();
   
+  //Acionando led
+  acionarLed();
+
+  //Lendo Ldr
+  lerLdr();
+  
+  //Enviando dados ao aplicativo
+  enviarDadosDhtLdr();
+
+  //Inicia o controle do robô
+  iniciarControleRobo();
 }

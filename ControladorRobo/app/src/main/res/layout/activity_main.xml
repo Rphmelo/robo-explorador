@@ -11,78 +11,90 @@
         android:layout_width="120dp"
         android:layout_height="55dp"
         android:text="@string/txtBtnForward"
-        android:layout_alignBaseline="@+id/btnBackward"
-        android:layout_alignBottom="@+id/btnBackward"
-        android:layout_alignStart="@+id/btnLeft" />
+        android:layout_marginBottom="40dp"
+        android:layout_above="@+id/btnStopRobot"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="23dp" />
 
     <Button
         android:id="@+id/btnLeft"
         android:layout_width="120dp"
         android:layout_height="55dp"
         android:text="@string/txtBtnLeft"
-        android:layout_marginStart="28dp"
-        android:layout_alignBaseline="@+id/btnRight"
-        android:layout_alignBottom="@+id/btnRight"
-        android:layout_alignParentStart="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/btnForward" />
 
     <Button
         android:id="@+id/btnRight"
         android:layout_width="120dp"
         android:layout_height="55dp"
         android:text="@string/txtBtnRight"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="45dp"
-        android:layout_below="@+id/btnStopRobot"
-        android:layout_alignEnd="@+id/btnStopRobot" />
+        android:layout_alignBaseline="@+id/btnLeft"
+        android:layout_alignBottom="@+id/btnLeft"
+        android:layout_alignEnd="@+id/btnBackward" />
 
     <Button
         android:id="@+id/btnBackward"
         android:layout_width="120dp"
         android:layout_height="55dp"
         android:text="@string/txtBtnBackward"
-        android:layout_marginTop="42dp"
-        android:layout_below="@+id/btnRight"
-        android:layout_alignStart="@+id/btnRight" />
+        android:layout_marginEnd="20dp"
+        android:layout_alignBaseline="@+id/btnForward"
+        android:layout_alignBottom="@+id/btnForward"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/btnStopRobot"
         android:layout_width="120dp"
         android:layout_height="55dp"
         android:text="@string/txtBtnStopRobot"
-        android:layout_marginEnd="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="18dp" />
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/txtv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnRight"
+        android:layout_marginBottom="40dp"
+        android:text="@string/txtVlVelocidade" />
+
+    <TextView
+        android:id="@+id/txtVelocidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="26dp"
+        android:text="@string/txtVelocidade"
+        android:layout_above="@+id/txtv"
+        android:layout_alignStart="@+id/btnLeft" />
+
+    <SeekBar
+        android:id="@+id/skVelocidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btnRight"
+        android:layout_alignStart="@+id/btnStopRobot"
+        android:layout_below="@+id/txtVelocidade"
+        android:max="255"
+        android:progress="1" />
+
+    <TextView
+        android:id="@+id/vlVelocidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtVelocidade"
+        android:layout_alignTop="@+id/txtv"
+        android:text="TextView" />
 
     <TextView
         android:id="@+id/txtLdr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/btnForward"
-        android:layout_below="@+id/btnForward"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="86dp"
-        android:text="TextView"
-        tools:text="@string/txtLdr" />
-
-    <TextView
-        android:id="@+id/txtUmidade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/btnBackward"
-        android:layout_alignTop="@+id/txtLdr"
-        android:layout_marginEnd="26dp"
-        android:text="TextView"
-        tools:text="@string/txtHumidade" />
-
-    <TextView
-        android:id="@+id/txtTemperatura"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtTemperatura"
-        android:layout_alignBottom="@+id/txtUmidade"
-        android:layout_toStartOf="@+id/btnBackward"
-        android:layout_alignTop="@+id/txtUmidade" />
+        android:layout_marginTop="16dp"
+        android:text="@string/txtLdr"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/txtVelocidade" />
 
     <TextView
         android:id="@+id/vlLdr"
@@ -90,27 +102,41 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/txtLdr"
         android:layout_below="@+id/txtLdr"
-        android:layout_marginTop="21dp"
-        android:text="TextView"
-        tools:text="@string/txtVlLdr" />
+        android:layout_marginTop="16dp"
+        android:text="@string/txtVlLdr" />
 
     <TextView
-        android:id="@+id/vlUmidade"
+        android:id="@+id/txtTemperatura"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/vlLdr"
-        android:layout_alignStart="@+id/txtUmidade"
-        android:text="TextView"
-        tools:text="@string/txtVlHumidade" />
+        android:text="@string/txtTemperatura"
+        android:layout_alignBaseline="@+id/txtLdr"
+        android:layout_alignBottom="@+id/txtLdr"
+        android:layout_toEndOf="@+id/vlVelocidade" />
 
     <TextView
         android:id="@+id/vlTemperatura"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/vlUmidade"
-        android:layout_alignBottom="@+id/vlUmidade"
         android:layout_alignStart="@+id/txtTemperatura"
-        android:text="TextView"
-        tools:text="@string/txtVlTemperatura" />
+        android:layout_alignTop="@+id/vlLdr"
+        android:text="@string/txtVlTemperatura" />
+
+    <TextView
+        android:id="@+id/txtUmidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtTemperatura"
+        android:layout_marginStart="48dp"
+        android:layout_toEndOf="@+id/txtTemperatura"
+        android:text="@string/txtUmidade" />
+
+    <TextView
+        android:id="@+id/vlUmidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtUmidade"
+        android:layout_alignTop="@+id/vlTemperatura"
+        android:text="@string/txtVlUmidade" />
 
 </RelativeLayout>

@@ -1,7 +1,7 @@
 #include <AFMotor.h>
 #include <DHT.h>
 
-#define DHTPIN A11    
+#define DHTPIN 24    
 #define DHTTYPE DHT11
 #define LED 22
 
@@ -35,12 +35,14 @@ class Robo {
       return velocidade;  
     }; 
     void definirVelocidade(){
-      for(int i = 1; this->velocidade > i; i++){
-        rodaDD->setSpeed(i);
-        rodaDE->setSpeed(i);
-        rodaTD->setSpeed(i);
-        rodaTE->setSpeed(i);
-      }
+      //rodaDD->setSpeed(this->velocidade);
+      //rodaDE->setSpeed(this->velocidade > 50 ? this->velocidade - 50: this->velocidade);
+      //rodaTD->setSpeed(this->velocidade > 50 ? this->velocidade - 50: this->velocidade);
+      //rodaTE->setSpeed(this->velocidade > 50 ? this->velocidade - 50: this->velocidade);
+      rodaDD->setSpeed(this->velocidade);
+      rodaDE->setSpeed(this->velocidade );
+      rodaTD->setSpeed(this->velocidade );
+      rodaTE->setSpeed(this->velocidade );
     };
     void virarAEsquerda(){
       definirVelocidade(); 
@@ -120,7 +122,6 @@ void setup()
   pinMode(LED, OUTPUT);
 } 
 void lerDht(){
-  delay(1000);
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -143,31 +144,18 @@ void lerDht(){
   Serial.print(" *C ");
 }
 void acionarLed(){
-  digitalWrite(LED, HIGH);   
-  delay(1000);                       
-  digitalWrite(LED, LOW);    
-  delay(1000);   
+  digitalWrite(LED, HIGH); 
 }
 void lerLdr(){
   // read the input on analog pin 0:
   ldrValue = analogRead(A10);
   // print out the value you read:
   Serial.println("LDR:");
-  Serial.println(ldrValue);
-  delay(1);        // delay in between reads for stability  
+  Serial.println(ldrValue);  
 }
 
 void enviarDadosDhtLdr(){
-  String dado = "";
-  dado.concat("T");
-  dado.concat(temperatura);
-  dado.concat("U");
-  dado.concat(umidade);
-  dado.concat("L");
-  dado.concat(ldrValue);
-  for(int indice = 0; dado.length() < indice; indice++){
-    Serial1.write(dado.charAt(indice));
-  }
+  
 }
 
 String receberDadosBluetooth(){
@@ -177,6 +165,7 @@ String receberDadosBluetooth(){
     caractere = (char) Serial1.read();
     retornoCompleto.concat(caractere);
   }
+  
   return retornoCompleto;
 }
 
@@ -228,8 +217,15 @@ void iniciarControleRobo(){
           break;
       }
   }
+  else{
+     curtoCircuito->pararRobo();
+  }
 }
 void loop() {
+
+  //Inicia o controle do robô
+  iniciarControleRobo();
+  
   //Lendo umidade, temperatura e luminosidade
   lerDht();
   
@@ -240,8 +236,20 @@ void loop() {
   lerLdr();
   
   //Enviando dados ao aplicativo
-  enviarDadosDhtLdr();
-
-  //Inicia o controle do robô
-  iniciarControleRobo();
+  Serial.println("Teste");
+  String dado = "";
+  dado.concat("T");
+  dado.concat(temperatura);
+  dado.concat("U");
+  dado.concat(umidade);
+  dado.concat("L");
+  dado.concat(ldrValue);
+  for(int indice = 0; dado.length() < indice; indice++){
+    if(Serial1.available()){
+      Serial1.write(dado.charAt(indice));
+    }
+    if(Serial.available()){
+      Serial.write(dado.charAt(indice));
+    }
+  }
 }

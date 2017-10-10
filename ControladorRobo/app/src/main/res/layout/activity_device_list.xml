@@ -34,7 +34,6 @@
         android:layout_above="@+id/connecting"
         android:layout_alignEnd="@+id/connecting"
         android:layout_marginBottom="14dp"
-        android:onClick="toControlador"
         android:text="@string/txtBtnToControlador"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 </RelativeLayout>

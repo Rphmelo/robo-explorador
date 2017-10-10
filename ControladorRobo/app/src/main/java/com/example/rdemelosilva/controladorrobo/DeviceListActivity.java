@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +29,7 @@ public class DeviceListActivity extends AppCompatActivity {
 
     // declare button for launching website and textview for connection status
     Button tlbutton, btnToControlador;
-    TextView textView1;
+    TextView txtConnecting;
     String address;
 
     // EXTRA string to send on to mainactivity
@@ -37,7 +38,7 @@ public class DeviceListActivity extends AppCompatActivity {
     // Member fields
     private BluetoothAdapter mBtAdapter;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
-
+    int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +51,12 @@ public class DeviceListActivity extends AppCompatActivity {
     public void onResume()
     {
         super.onResume();
-        //***************
+
         checkBTState();
 
-        textView1 = (TextView) findViewById(R.id.connecting);
-        textView1.setTextSize(40);
-        textView1.setText(" ");
+        txtConnecting = (TextView) findViewById(R.id.connecting);
+        txtConnecting.setTextSize(30);
+        txtConnecting.setText(" ");
 
         // Initialize array adapter for paired devices
         mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
@@ -87,16 +88,13 @@ public class DeviceListActivity extends AppCompatActivity {
     private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
 
-            textView1.setText("Conectando...");
+            txtConnecting.setText("Conectando...");
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             address = info.substring(info.length() - 17);
 
-            findViewById(R.id.btnToControlador).setVisibility(View.VISIBLE);
             // Make an intent to start next activity while taking an extra which is the MAC address.
-            Intent i = new Intent(DeviceListActivity.this, MainActivity.class);
-            i.putExtra(EXTRA_DEVICE_ADDRESS, address);
-            startActivity(i);
+            toControlador();
         }
     };
 
@@ -117,9 +115,10 @@ public class DeviceListActivity extends AppCompatActivity {
         }
     }
 
-    public void toControlador(View v){
+    public void toControlador(){
         Intent i = new Intent(DeviceListActivity.this, MainActivity.class);
         i.putExtra(EXTRA_DEVICE_ADDRESS, address);
         startActivity(i);
+
     }
 }

@@ -217,9 +217,6 @@ void iniciarControleRobo(){
           break;
       }
   }
-  else{
-     curtoCircuito->pararRobo();
-  }
 }
 void loop() {
 

@@ -57,8 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnRight"
-        android:layout_marginBottom="40dp"
-        android:text="@string/txtVlVelocidade" />
+        android:layout_marginBottom="40dp" />
 
     <TextView
         android:id="@+id/txtVelocidade"
@@ -78,14 +77,6 @@
         android:layout_below="@+id/txtVelocidade"
         android:max="255"
         android:progress="1" />
-
-    <TextView
-        android:id="@+id/vlVelocidade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txtVelocidade"
-        android:layout_alignTop="@+id/txtv"
-        android:text="TextView" />
 
     <TextView
         android:id="@+id/txtLdr"
@@ -112,7 +103,7 @@
         android:text="@string/txtTemperatura"
         android:layout_alignBaseline="@+id/txtLdr"
         android:layout_alignBottom="@+id/txtLdr"
-        android:layout_toEndOf="@+id/vlVelocidade" />
+        android:layout_toEndOf="@+id/txtVelocidade" />
 
     <TextView
         android:id="@+id/vlTemperatura"
@@ -126,10 +117,10 @@
         android:id="@+id/txtUmidade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtTemperatura"
-        android:layout_marginStart="48dp"
-        android:layout_toEndOf="@+id/txtTemperatura"
-        android:text="@string/txtUmidade" />
+        android:text="@string/txtUmidade"
+        android:layout_alignBaseline="@+id/txtTemperatura"
+        android:layout_alignBottom="@+id/txtTemperatura"
+        android:layout_alignStart="@+id/btnRight" />
 
     <TextView
         android:id="@+id/vlUmidade"
@@ -138,5 +129,13 @@
         android:layout_alignStart="@+id/txtUmidade"
         android:layout_alignTop="@+id/vlTemperatura"
         android:text="@string/txtVlUmidade" />
+
+    <TextView
+        android:id="@+id/vlVelocidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtv"
+        android:layout_toEndOf="@+id/vlLdr"
+        android:text="@string/txtVlVelocidade" />
 
 </RelativeLayout>
